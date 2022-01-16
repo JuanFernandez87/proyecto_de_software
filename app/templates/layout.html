@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% block head %}
+{% include 'layout/head.html' %}
+{% endblock %}
+
+<body>
+  <header class="colorHeader">
+    {% block header %}
+
+    {% include 'layout/navBar.html' %}
+
+    {% endblock %}
+  </header>
+  <div id="content" class="contenido">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    {% block content %}
+    {% endblock %}
+  </div>
+  
+  {% include 'layout/footer.html' %}
+
+</body>
+
+</html>

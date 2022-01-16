@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}Puntos{% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+crossorigin=""/>
+ <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+{% endblock %}
+{% block content %}
+<div class="content-page">
+  <h1 class="border-botton-dotted">Mostrar Punto de Encuentro</h1>
+  <div class="mt-5">
+  <div>
+    <h4>Coordenadas : {{coordenadas}}</h3>
+  </div>
+<div id="map" style="width: 800px; height: 500px; "></div>
+      <script>
+      var map = L.map('map').setView([-34.9187,-57.956], 13);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+      
+      L.marker(["{{coordenadas.lat}}", "{{coordenadas.lng}}"]).addTo(map)
+        .bindPopup("<b>Aqui se encuentra el punto</b>").openPopup();
+      
+  </script>
+</div>
+<a
+class="btn btn-secondary mt-2 mr-1"
+href="{{ url_for('punto_index') }}"
+class="link"
+>Volver</a
+>
+</div>
+{% endblock %}

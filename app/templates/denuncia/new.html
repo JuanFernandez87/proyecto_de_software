@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+{% block title %}Puntos{% endblock %}
+{% block head %}
+{{ super() }}
+<!--Leaflet files-->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+<!-- CSS and JS files for Search Box -->
+<script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+<script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css">
+
+<script type="module" src="{{ url_for('static', filename='js/denuncia_update.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/denuncia_update.css') }}">
+
+{% endblock %}
+{% block content %}
+{% from "form/_formhelpers.html" import render_field %}
+<div class="content-page">
+  <h1 class="border-botton-dotted">Nueva Denuncia</h1>
+  <div class="mt-5">  
+<form action="{{ url_for('denuncia_create') }}" method="POST" id="update-denuncia-form" autocomplete="off" novalidate>
+  <div class="form-row mb-2">
+    <div class="input-group">
+      <div class="form-group col-md-6 pr-2">
+        <div class="input-group">
+        <div class="form-group col-md-6 pr-2">
+            {% if form.titulo.errors %}
+            {{ render_field(form.titulo, class="form-control is-invalid") }}
+            {% else %}
+            {{ render_field(form.titulo, class="form-control") }}
+            {% endif %}
+        </div>
+        <div class="form-group col-md-6 pr-2">
+            {% if form.categoria.errors %}
+            {{ render_field(form.categoria, class="form-select is-invalid") }}
+            {% else %}
+            {{ render_field(form.categoria, class="form-select") }}
+            {% endif %}
+        </div>
+      </div>
+   
+
+      <div class="input-group">
+        <div class="form-group col-md-12 pr-2">
+        {% if form.descripcion.errors %}
+        {{ render_field(form.descripcion, class="form-control is-invalid") }}
+        {% else %}
+        {{ render_field(form.descripcion, class="form-control") }}
+        {% endif %}
+      </div>
+       </div> 
+
+
+       <div class="input-group">
+        <div class="form-row mb-2">
+  <label for="input-name" style="margin-top: 10px; margin-left: 10px">Información del denunciante</label>
+</div>
+</div>
+
+    <div class="input-group">
+      <div class="form-group col-md-6 pr-2">
+            {% if form.nombre_denunciante.errors %}
+            {{ render_field(form.nombre_denunciante, class="form-control is-invalid") }}
+            {% else %}
+            {{ render_field(form.nombre_denunciante, class="form-control") }}
+            {% endif %}
+        </div>
+        <div class="form-group col-md-6 pr-2">
+            {% if form.apellido_denunciante.errors %}
+            {{ render_field(form.apellido_denunciante, class="form-control is-invalid") }}
+            {% else %}
+            {{ render_field(form.apellido_denunciante, class="form-control") }}
+            {% endif %}
+        </div>
+        </div>
+
+  
+        <div class="input-group">
+          <div class="form-group col-md-6 pr-2">
+                {% if form.tel_cel_denunciante.errors %}
+                {{ render_field(form.tel_cel_denunciante, class="form-control is-invalid") }}
+                {% else %}
+                {{ render_field(form.tel_cel_denunciante, class="form-control") }}
+                {% endif %}
+            </div>
+            <div class="form-group col-md-6 pr-2">
+                {% if form.email_denunciante.errors %}
+                {{ render_field(form.email_denunciante, class="form-control is-invalid") }}
+                {% else %}
+                {{ render_field(form.email_denunciante, class="form-control") }}
+                {% endif %}
+            </div>
+            </div>
+    
+      </div>
+
+
+    <div class="form-group col-md-3 pr-2">
+      <label for="latitud">Coordenadas</label>
+      <div class="input-group">
+        <input type="text" name="latitud" id="lat" value="-34.90248">
+        <input type="text" name="longitud" id="lng" value="-57.93357">
+        <Mapa>
+          <div class="map-container">
+            <div id="mapid"></div>
+          </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+  <div class="form-row mb-2">
+    <div class="input-group">
+      <div class="form-group col-md-4 pr-2">
+        <a class="btn btn-secondary mt-2 mr-1" href="{{ url_for('denuncia_index') }}" class="link">Cancelar</a>
+        <button type="submit" class="btn btn-primary mt-2">Guardar</button>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+</div>
+{% endblock %}

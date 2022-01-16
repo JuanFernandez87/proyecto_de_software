@@ -1,0 +1,155 @@
+{% extends "layout.html" %} {% block title %}Usuarios{% endblock %}
+<head>
+  {% block head %} {{ super() }}
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='/css/user.css') }}"
+  />
+  <script
+    type="text/javascript"
+    src="{{ url_for('static', filename='js/user.js') }}"
+  ></script>
+  {% endblock %}
+</head>
+{% block content %}
+<div class="popupConfirmation">
+  <span class="helper"></span>
+  <div>
+    <div class="popupCloseButton">&times;</div>
+    <p>¿Está seguro que desea eliminar el usuario seleccionado?</p>
+    <div class="popupButtons">
+      <input
+        type="button"
+        class="btn btn-secondary"
+        value="Cancelar"
+        class="cancelButton"
+      />
+      <form
+        action="{{ url_for('user_delete') }}"
+        method="post"
+        class="popupConfirmButton"
+      >
+        <input type="hidden" id="user_to_delete" name="user_to_delete" />
+        <input class="btn btn-primary" type="submit" value="Aceptar" />
+      </form>
+    </div>
+  </div>
+</div>
+<div class="content-page">
+  <div class="row">
+    <div>
+      <h1 class="border-botton-dotted">Módulo de Usuarios</h1>
+    </div>
+    <div class="right mr-2">
+      {% if current_user.has_permissions("usuario_new") %}
+      <a class="btn btn-primary btn-md mr-2" href="{{ url_for('user_new') }}"
+        >Nuevo Usuario</a
+      >
+      {% endif %}
+      <a class="btn btn-secondary btn-md" href="{{ url_for('home') }}"
+        >Volver</a
+      >
+    </div>
+    <div class="centered">
+      <form action="{{ url_for('user_search') }}" method="post" class="pb-3">
+        <input
+          class="search-bar form-control d-inline"
+          type="search"
+          placeholder="Ingrese un nombre de usuario"
+          value="{{search_value}}"
+          name="search_query"
+        />
+        <button class="btn btn-primary primary searchBtn">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="table-responsive-md">
+    <table class="table table-striped table-bordered" width="100%">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Nombre de Usuario</th>
+          <th scope="col">Email</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+          <th scope="col">Activo</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users.items %}
+        <tr>
+          <td scope="row">{{ user.user_name}}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.last_name }}</td>
+          <td>{{ user.active }}</td>
+          <td>
+            <div class="row justify-content-center">
+              <div class="col-sm-2">
+                {% if current_user.has_permissions("usuario_update") %}
+                <form action="{{ url_for('user_activate', id=user.id) }}">
+                  <button id="submitButton">
+                    {% if user.active %}
+                    <i class="fas fa-toggle-on fa-lg"></i>
+                    {% else %}
+                    <i class="fas fa-toggle-off fa-lg"></i>
+                    {% endif %}
+                  </button>
+                </form>
+                 {% endif %}
+              </div>
+              <div class="col-md-2">
+                {% if current_user.has_permissions("usuario_update") %}
+                <form action="{{ url_for('user_update_index', id=user.id) }}">
+                  <button id="submitButton">
+                    <i class="fas fa-pencil-alt fa-lg"></i>
+                  </button>
+                </form>
+                {% endif %}
+              </div>
+
+              <div class="col-sm-2">
+                {% if current_user.has_permissions("usuario_destroy") %}
+                <button id="submitButton" onclick="deleteUser('{{user.id}}');">
+                  <i class="fas fa-trash fa-lg"></i>
+                </button>
+                {% endif %}
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-end">
+        {% if users.has_prev %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="{{ url_for('user_index', page=users.prev_num) }}"
+            >Anterior</a
+          >
+        </li>
+        {% endif %} {% for page in range (1,users.pages + 1)%}
+        <li class="page-item">
+          <a class="page-link" href="{{ url_for('user_index', page=page) }}"
+            >{{page}}</a
+          >
+        </li>
+        {% endfor %} {% if users.has_next %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="{{ url_for('user_index', page=users.next_num) }}"
+            >Siguiente</a
+          >
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}

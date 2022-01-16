@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block title %}Recorridos de Evacuación{% endblock %}
+{% block head %}
+{{ super() }}
+
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='/css/recorridos.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""
+/>
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<script
+  src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""
+></script>
+<!--Leafleat Draw-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" ></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+<script
+  type="module"
+  src="{{ url_for('static', filename='js/recorridos/recorrido_update.js') }}"
+></script>
+{% endblock %}
+{% block content %}
+{% from "form/_formhelpers.html" import render_field %}
+<div class="content-page">
+  <h1 class="border-botton-dotted">Editar Recorrido de Evacuación</h1>
+  <div class="mt-5">
+    <form action="{{ url_for('recorrido_update') }}" method="POST" autocomplete="off" novalidate id="update-recorrido-form">
+      {{ render_field(form.id) }}
+      <div class="form-group col-md-8 mb-2">
+        {% if form.nombre.errors %} {{ render_field(form.nombre,
+        class="form-control is-invalid") }} {% else %} {{
+        render_field(form.nombre, class="form-control") }} {% endif %}
+      </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2">
+            {% if form.descripcion.errors %} {{ render_field(form.descripcion,
+            class="form-control is-invalid") }} {% else %} {{
+            render_field(form.descripcion, class="form-control") }} {% endif %}
+          </div>
+          <div class="form-group col-md-4">
+            {% if form.estado.errors %} {{ render_field(form.estado,
+              class="form-control is-invalid") }} {% else %} {{
+              render_field(form.estado, class="form-control") }} {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2">
+            <div id="map"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2">
+            <a class="btn btn-secondary mt-2 mr-1" href="{{ url_for('recorrido_index') }}" class="link">Cancelar</a>
+            <button type="submit"  id='submit' class="btn btn-primary mt-2">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

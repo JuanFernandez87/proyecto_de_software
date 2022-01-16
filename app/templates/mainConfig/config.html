@@ -1,0 +1,168 @@
+{% extends "layout.html" %}
+{% block title %}Configuración del sistema{% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/config.css') }}">
+<script type="text/javascript" src="{{ url_for('static', filename='js/config_sistema.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="content-page">
+    <h1 class="border-botton-dotted">Configuración del Sistema</h1>
+    <form action="{{ url_for('config_update') }}" method="POST">
+        <div class="ml-5">
+            <h1 class="tituloTabla pb-1" style="font-size: 25px"><i class="fas fa-list mr-1"></i>Listados</h1>
+            <table class="tabla">
+                <tr>
+                    <th class="pt-4">
+                        <h1 class="subtitulo" style="font-size: 20px">Criterio de Ordenación por defecto</h1>
+                    </th>
+                    <th class="pt-4">
+                        <select class="form-control col-md-4" name="orden">
+                            {% if publica.orden == False: %}
+                            <option value="0" selected>Ascendente</option>
+                            <option value="1">Descendente</option>
+                            {% else %}
+                            <option value="1" selected>Descendente</option>
+                            <option value="0">Ascendente</option>
+                            {% endif %}
+                        </select>
+                    </th>
+                </tr>
+
+                <tr>
+                    <th>
+                        <h1 class="subtitulo" style="font-size: 20px">Cantidad de elementos por página</h1>
+                    </th>
+
+                    <th>
+                        <select class="form-control col-md-4" name="cant">
+                            {% for cant in cantidad %}
+                            {% if cant == publica.cant_elem: %}
+                            <option value="{{ publica.cant_elem }}" selected> {{ publica.cant_elem }} </option>
+                            {% endif %}
+                            {% if cant != publica.cant_elem: %}
+                            <option value="{{ cant }}"> {{ cant }} </option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </th>
+                </tr>
+            </table>
+            <h1 class="tituloTabla pb-1" style="font-size: 25px"><i class="fas fa-palette mr-1"></i>Colores del sistema</h1>
+            <table class="tabla">
+                <tr class="mt-2">
+                    <th class="pt-4"></th>
+                    <th class="pt-4" style="font-size: 15px;">App Pública</th>
+                    <th class="pt-4" style="font-size: 15px;">App Privada</th>
+                </tr>
+                <tr>
+                    <th>
+                        <h1 class="subtitulo" style="font-size: 20px">Color del Header</h1>
+                    </th>
+                    <th class="pr-2">
+                        <select class="form-control col-md-4 mt-1" id="select_colores" name="headerPublica">
+                            {% for color, cod in coloresHeader.items() %}
+                            {% if cod == publica.color_header: %}
+                            <option value="{{ cod }}" selected>{{ color }}</option>
+                            {% endif %}
+                            {% if cod != publica.color_header: %}
+                            <option value="{{ cod }}">{{ color }}</option>
+
+                            {% endif %}
+
+                            {% endfor %}
+                        </select>
+                    </th>
+                    <th>
+                        <select class="form-control col-md-4 mt-1" name="headerPrivada">
+                            {% for color, cod in coloresHeader.items() %}
+                            {% if cod == privada.color_header: %}
+                            <option value="{{ cod }}" selected>{{ color }}</option>
+                            {% endif %}
+                            {% if cod != privada.color_header: %}
+                            <option value="{{ cod }}">{{ color }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <h1 class="subtitulo" style="font-size: 20px">Color del Footer</h1>
+                    </th>
+                    <th class="pr-2">
+                        <select class="form-control col-md-4 mt-1" name="footerPublica">
+                            {% for color, cod in coloresFooter.items() %}
+                            {% if cod == publica.color_footer: %}
+                            <option value="{{ cod }}" selected>{{ color }}</option>
+                            {% endif %}
+                            {% if cod != publica.color_footer: %}
+                            <option value="{{ cod }}">{{ color }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </th>
+                    <th>
+                        <select class="form-control col-md-4 mt-1" name="footerPrivada">
+                            {% for color, cod in coloresFooter.items() %}
+                            {% if cod == privada.color_footer: %}
+                            <option value="{{ cod }}" selected>{{ color }}</option>
+                            {% endif %}
+                            {% if cod != privada.color_footer: %}
+                            <option value="{{ cod }}">{{ color }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <h1 class="subtitulo" style="font-size: 20px">Color de los botones</h1>
+                    </th>
+                    <th class="pr-2">
+                        <select class="form-control col-md-4 mt-1" name="botonesPublica">
+                            {% for color, cod in coloresBotones.items() %}
+                            {% if cod == publica.color_button: %}
+                            <option value="{{ cod }}" selected>{{ color }}</option>
+                            {% endif %}
+                            {% if cod != publica.color_button: %}
+                            <option value="{{ cod }}">{{ color }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </th>
+                    <th>
+                        <select class="form-control col-md-4 mt-1" name="botonesPrivada">
+                            {% for color, cod in coloresBotones.items() %}
+                            {% if cod == privada.color_button: %}
+                            <option value="{{ cod }}" selected>{{ color }}</option>
+                            {% endif %}
+                            {% if cod != privada.color_button: %}
+                            <option value="{{ cod }}">{{ color }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div class="popupConfirmation">
+            <span class="helper"></span>
+            <div>
+                <div class="popupCloseButton">&times;</div>
+                <p>¿Está seguro que desea actualizar la configuración del sistema?</p>
+                <div class="popupButtons">
+                    <input type="button" value="Cancelar" class="btn btn-secondary mr-1">
+                    <input type=submit value="Aceptar" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5 mb-5">
+            <button type="button" class="btn btn-secondary mt-2 mr-1" onclick="location.href='/'">Cancelar</button>
+            <button type="button" class="btn btn-primary mt-2" onclick="uptadeConfig();"
+                style="margin-left: 10px;">Guardar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

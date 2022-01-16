@@ -1,0 +1,182 @@
+{% extends "layout.html" %}
+{% block title %}Denuncia{% endblock %}
+{% block head %}
+{{ super() }}
+<!--Leaflet files-->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+<!-- CSS and JS files for Search Box -->
+<script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+<script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/denuncia_update.css') }}">
+<script type="module" src="{{ url_for('static', filename='js/denuncia_update.js') }}"></script>
+
+{% endblock %}
+{% block content %}
+{% from "form/_formhelpers.html" import render_field %}
+<div class="content-page">
+  <h1 class="border-botton-dotted">Revisión de denuncia</h1>
+  <div class="mt-5">  
+      {{ render_field(form_denuncia.id) }}
+      <form action="{{ url_for('denuncia_revision', id=id) }}" method="POST" id="update-denuncia-form" autocomplete="off" novalidate>
+            <div class="form-row mb-2">
+                <div class="input-group">
+                    <div class="form-group col-md-4 pr-2">
+                        {% if form_denuncia.titulo.errors %}
+                        {{ render_field(form_denuncia.titulo, class="form-control is-invalid") }}
+                        {% else %}
+                        {{ render_field(form_denuncia.titulo, class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {% if form_denuncia.categoria.errors %}
+                        {{ render_field(form_denuncia.categoria, class="form-select is-invalid") }}
+                        {% else %}
+                        {{ render_field(form_denuncia.categoria, class="form-select") }}
+                        {% endif %}
+                    </div>
+                </div>
+             </div> 
+          
+            <div class="form-row mb-2">
+                <div class="input-group">
+                    <div class="form-group col-md-4 pr-2">
+                    {% if form_denuncia.descripcion.errors %}
+                    {{ render_field(form_denuncia.descripcion, class="form-control is-invalid") }}
+                    {% else %}
+                    {{ render_field(form_denuncia.descripcion, class="form-control") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group col-md-4" id="fecha_creacion">
+                    {% if form_denuncia.fecha_creacion.errors %}
+                    {{ render_field(form_denuncia.fecha_creacion, class="form-control is-invalid")}}
+                    {% else %}
+                    {{ render_field(form_denuncia.fecha_creacion, class="form-control") }}
+                    {% endif %}
+                </div>
+
+                </div>
+            </div> 
+    
+            <label for="input-name" style="margin-top: 10px; margin-left: 10px">Coordenadas</label>
+            <div class="form-row mb-2">
+                <div class="input-group">
+                    <div class="form-group col-md-4 pr-2" style="margin-top: 20px;">
+                {% if form_denuncia.latitud.errors %}
+                {{ render_field(form_denuncia.latitud, class="form-control is-invalid") }}
+                {% else %}
+                {{ render_field(form_denuncia.latitud, class="form-control") }}
+                {% endif %}
+            </div>
+            <div class="form-group col-md-4" style="margin-top: 20px;">
+                {% if form_denuncia.longitud.errors %}
+                {{ render_field(form_denuncia.longitud, class="form-control is-invalid") }}
+                {% else %}
+                {{ render_field(form_denuncia.longitud, class="form-control") }}
+                {% endif %}
+            </div>
+            </div>
+           </div> 
+
+            <label for="input-name" style="margin-top: 10px; margin-left: 10px">Información del denunciante</label>
+            <div class="form-row mb-2">
+                <div class="input-group">
+                    <div class="form-group col-md-4 pr-2" style="margin-top: 20px;">
+                        {% if form_denuncia.nombre_denunciante.errors %}
+                {{ render_field(form_denuncia.nombre_denunciante, class="form-control is-invalid") }}
+                {% else %}
+                {{ render_field(form_denuncia.nombre_denunciante, class="form-control") }}
+                {% endif %}
+            </div>
+            <div class="form-group col-md-4" style="margin-top: 20px;">
+                {% if form_denuncia.apellido_denunciante.errors %}
+                {{ render_field(form_denuncia.apellido_denunciante, class="form-control is-invalid") }}
+                {% else %}
+                {{ render_field(form_denuncia.apellido_denunciante, class="form-control") }}
+                {% endif %}
+            </div>
+            </div>
+         </div> 
+    
+         <div class="form-row mb-2">
+            <div class="input-group">
+                <div class="form-group col-md-4 pr-2">
+                    {% if form_denuncia.tel_cel_denunciante.errors %}
+                    {{ render_field(form_denuncia.tel_cel_denunciante, class="form-control is-invalid") }}
+                    {% else %}
+                    {{ render_field(form_denuncia.tel_cel_denunciante, class="form-control") }}
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-4">
+                    {% if form_denuncia.email_denunciante.errors %}
+                    {{ render_field(form_denuncia.email_denunciante, class="form-control is-invalid") }}
+                    {% else %}
+                    {{ render_field(form_denuncia.email_denunciante, class="form-control") }}
+                    {% endif %}
+                </div>
+                </div>
+            </div> 
+
+            <label for="input-name" style="margin-top: 10px; margin-left: 10px">Estado de la denuncia</label>
+            <div class="form-row mb-2">
+              <div class="input-group">
+                  <div class="form-group col-md-4 pr-2" style="margin-top: 20px;">
+                    {% if form_denuncia.intentos_comunicacion.errors %}
+                    {{ render_field(form_denuncia.intentos_comunicacion, class="form-control is-invalid", type="number", min="0", max="3") }}
+                    {% else %}
+                    {{ render_field(form_denuncia.intentos_comunicacion, class="form-control", type="number", min="0", max="3") }}
+                    {% endif %}
+                  </div>
+                  <div class="form-group col-md-4" style="margin-top: 20px;">
+                      {% if form_denuncia.estado.errors %}
+                      {{ render_field(form_denuncia.estado, class="form-select is-invalid") }}
+                      {% else %}
+                      {{ render_field(form_denuncia.estado, class="form-select") }}
+                      {% endif %}
+                  </div>
+                  </div>
+                </div>
+     
+     <!-- Si la denuncia tiene seguimientos, muestro los que corresponden a la denuncia seleccionada -->
+     {% if seguimientos %}           
+     <h1 class="border-botton-dotted">Seguimientos</h1>
+     <div class="table-responsive-xxl" style="margin-top: 50px;">
+        <table class="table table-striped table-bordered" width="100%">
+         <thead class="table-dark">
+            <tr>
+              <th scope="col">Descripción</th> 
+              <th scope="col">Autor</th> 
+              <th scope="col">Fecha</th>              
+            </tr>
+         </thead>
+         <tbody>
+            {% for seguimiento in seguimientos %}
+            <tr>
+              <td>{{ seguimiento.descripcion }}</td>
+              <td>{{ seguimiento.user_name }}</td>
+              <td>{{ seguimiento.fecha }}</td>
+            </tr>
+            {% endfor %}
+         </tbody>
+        </table> 
+     </div>
+     {% endif %}
+     <!--  -->
+
+     <div class="form-row mb-2" style="margin-top: 50px;">
+        <div class="input-group">
+        <div class="form-group col-md-4 pr-2">
+            <a class="btn btn-secondary mt-2 mr-1" href="{{ url_for('denuncia_index') }}" class="link">Cancelar</a>
+            <button type="submit" class="btn btn-primary mt-2">Generar seguimiento</button>
+        </div>
+        </div>
+    </div>
+ </form>
+</div>
+
+</div>
+{% endblock %}

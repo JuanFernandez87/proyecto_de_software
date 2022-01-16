@@ -1,0 +1,123 @@
+/*---------- HEADER ----------*/
+header {
+    margin-top: 0;
+	width:100%; 
+    height: 92px;
+	background: #FFFFFF;
+    border-bottom: 1px solid #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.contenidoHeader {
+    margin-top: 0px;
+    height: 80px;
+}
+
+.contenidoHeader img {
+    /* width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    border:1px solid white;
+    margin: 10px;
+    background-color: #f2f2f2; */
+    width: 250px;
+    height: 56.4px;
+    left: 36px;
+    top: 13px;
+    margin-left: 2rem;
+    padding-bottom: 0.5rem;
+}
+
+header .logo {
+	color: black;
+	font-size:50px;
+	height:70px;
+	float:left;
+    display: inline-flex;
+    align-items: center;
+    padding-top: 48px;
+}
+
+header nav {
+	float:right;
+	height:70px;
+    margin: 15px;
+    margin-left: 139px;
+}
+
+header nav a {
+	display:inline-block;
+	color:black;
+	text-decoration:none;
+	padding:10px 10px;
+	line-height:normal;
+	font-size:20px;
+	font-weight:bold;
+	-webkit-transition:all 500ms ease;
+	-o-transition:all 500ms ease;
+	transition:all 500ms ease;
+}
+
+header nav a i .far .fa-user-circle{
+    margin: 10px;
+}
+
+.nav li .user{
+    font-size: 20px;
+    margin-top: 7px;
+    margin-right: 46px;
+    border-radius: 50px;
+} 
+
+ul, ol{
+    list-style: none;
+}
+
+.nav li a{
+    display: block;
+    padding: 10px 30px;
+    background-color: #6D9886;
+    padding-right: 34px;
+} 
+
+.nav > li{
+    float: left;
+}
+
+.nav li a:hover{
+    background-color: #D9CAB3;
+    color: white; 
+}
+
+.nav li ul{
+    display: none;
+    position: absolute;
+    min-width: 140px; 
+}
+
+.nav li:hover > ul{
+    display: block;
+}
+
+.nav li ul li{
+    position: relative;
+    top: 0px;
+}
+.botones-menu :hover{
+    color: #6D9886;
+    padding-left: 8px;
+}
+
+.colorHeader{
+    background-color: var(--color-header);
+}
+
+.navBar {
+    text-align: end;
+    padding-right: 5rem !important;
+    padding-top: 2rem !important;
+}
+
+.inline {
+    display: inline;
+}

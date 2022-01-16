@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block title %}Recorrido de Evacuación{% endblock %}
+{% block head %}
+{{ super() }}
+<!--Leaflet files-->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+
+<!--Leafleat Draw-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" ></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+
+<script type="module" src="{{ url_for('static', filename='js/recorridos/recorrido_show.js') }}"></script>
+
+
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='/css/recorridos.css') }}"
+  />
+
+{% endblock %}
+{% block content %}
+<div class="content-page">
+  <h1 class="border-botton-dotted">Detalle Recorrido de Evacuación</h1>
+  <div class="mt-5">
+    <div class="form-row mb-2 mt-5 mb-2">
+      <div class="input-group">
+        <div class="form-group col-md-4 pr-2">
+        </div>
+        <div class="form-group col-md-4 pr-2">
+        </div>
+        <div class="form-group col-md-4 pr-2 right">
+          <a class="btn btn-secondary mt-2 mr-2" href="{{ url_for('recorrido_index') }}" class="link">Volver</a>
+        </div>
+      </div>
+    </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2 ">
+             <input type="hidden" id="id" value="{{ recorrido.id }}"></input>
+            <label class="fw-bold">Nombre del recorrido:</label>
+            <input type="text" class="form-control" readonly disabled value="{{ recorrido.nombre }}"></input>
+            <div class="form-group col-md-12">
+              <label class="fw-bold">Descripción del recorrido:</label>
+              <input type="text" class="form-control" readonly disabled value="{{ recorrido.descripcion }}"></input>
+            </div>
+            <div class="input-group">
+              <div class="form-group col-md-4 pr-1">
+                <label class="fw-bold">Estado:</label>
+                {% if(recorrido.estado)%}
+                  <input type="text" class="form-control" readonly disabled value="Publicado"></input>
+                {%else%}
+                  <input type="text" class="form-control" readonly disabled value="Despublicado"></input>
+                {%endif%}
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label class="fw-bold">Recorrido:</label>
+               <Mapa>
+               <div class="map-container">
+                <div id="map"></div>  
+              </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

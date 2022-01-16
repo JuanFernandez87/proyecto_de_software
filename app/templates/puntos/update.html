@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+{% block title %}Puntos{% endblock %}
+{% block head %}
+{{ super() }}
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""
+/>
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<script
+  src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""
+></script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/puntos.css') }}">
+<script type="module" src="{{ url_for('static', filename='js/puntos/punto_update.js') }}"></script>
+{% endblock %}
+{% block content %}
+{% from "form/_formhelpers.html" import render_field %}
+<div class="content-page">
+  <h1 class="border-botton-dotted">Editar Punto de Encuentro</h1>
+  <div class="mt-5">
+    <form action="{{ url_for('punto_update') }}" method="POST" autocomplete="off" novalidate id="update-punto-form">
+      {{ render_field(form.id) }}
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2">
+            {% if form.nombre.errors %}
+            {{ render_field(form.nombre, class="form-control is-invalid") }}
+            {% else %}
+            {{ render_field(form.nombre, class="form-control") }}
+            {% endif %}
+          </div>
+          <div class="form-group col-md-4">
+            {% if form.direccion.errors %}
+            {{ render_field(form.direccion, class="form-control is-invalid") }}
+            {% else %}
+            {{ render_field(form.direccion, class="form-control") }}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2">
+            {% if form.estado.errors %} {{ render_field(form.estado,
+              class="checkbox-1x is-invalid") }} {% else %} {{
+              render_field(form.estado, class="checkbox-1x") }} {% endif %}
+          </div>
+          <div class="form-group col-md-4">
+            {% if form.telefono.errors %}
+            {{ render_field(form.telefono, class="form-control is-invalid") }}
+            {% else %}
+            {{ render_field(form.telefono, class="form-control") }}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2">
+            {% if form.email.errors %}
+            {{ render_field(form.email, class="form-control is-invalid") }}
+            {% else %}
+            {{ render_field(form.email, class="form-control") }}
+            {% endif %}
+          </div>
+          <div class="form-group col-md-4">
+            <input type="text" name="lat" id="lat" value="{{ form.lat.data }}">  
+            <input type="text" name="lng" id="lng" value="{{ form.lng.data }}">
+         <div class="map-container">
+          <div id="map"></div>  
+        </div>
+          </div>
+        </div>
+      </div>
+
+        <div class="form-row mb-2">
+          <div class="input-group">
+            <div class="form-group col-md-4 pr-2">
+              <a class="btn btn-secondary mt-2 mr-1" href="{{ url_for('punto_index') }}" class="link">Cancelar</a>
+              <button type="submit" class="btn btn-primary mt-2">Guardar</button>
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

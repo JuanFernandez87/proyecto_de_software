@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block title %}Seguimiento{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+{% from "form/_formhelpers.html" import render_field %}
+<div class="content-page">
+  <h1 class="border-botton-dotted">Seguimiento de denuncia</h1>
+  <div class="mt-5">  
+    <form action="{{ url_for('denuncia_revision_new', id=id) }}" method="POST" id="update-denuncia-form" autocomplete="off" novalidate>
+      <div class="form-row mb-2">
+        <div class="input-group">
+            <div class="form-group col-md-4 pr-2">
+                {% if form_seguimiento.descripcion.errors %}
+                {{ render_field(form_seguimiento.descripcion, class="form-control is-invalid") }}
+                {% else %}
+                {{ render_field(form_seguimiento.descripcion, class="form-control") }}
+                {% endif %}
+            </div>
+         </div>
+        </div> 
+        <div class="form-row mb-2">
+            <div class="input-group">
+            <div class="form-group col-md-4 pr-2">
+                <a class="btn btn-secondary mt-2 mr-1" href="{{ url_for('denuncia_index') }}" class="link">Cancelar</a>
+                <button type="submit" class="btn btn-primary mt-2">Guardar</button>
+            </div>
+            </div>
+        </div>
+    </form>
+     </div>
+</div>     
+{% endblock %}

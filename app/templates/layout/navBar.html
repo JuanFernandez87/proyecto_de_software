@@ -1,0 +1,33 @@
+<div class="contenidoHeader">
+  <div class="logo"><img src="{{ url_for('static', filename='images/muni4.svg') }}" alt="logo municipalidad"></div>
+    <div class="navBar">
+          {% if current_user.is_authenticated %}
+          <div class="inline pr-1">{{current_user.user_name}}</div>
+          <div class="dropdown inline">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="far fa-user-circle"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item"  href="{{ url_for('user_index', permisos=permisos)}}">Usuarios</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('punto_index')}}">Puntos de Encuentro</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('recorrido_index')}}">Recorridos de Evacuación</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('zonas_index')}}">Zonas Inundables</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('denuncia_index')}}">Denuncias</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('config_index')}}">Configuración</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('auth_logout') }}">Cerrar sesión</a></li>
+            </ul>
+          </div>
+          {% else %}
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="far fa-user-circle"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="{{ url_for('auth_login') }}">Iniciar sesión</a></li>
+            </ul>
+          </div>
+          {% endif %}
+    </div>
+</div>

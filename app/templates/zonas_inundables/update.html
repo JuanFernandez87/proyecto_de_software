@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block head %}
+{{ super() }}
+<script
+type="text/javascript"
+src="{{ url_for('static', filename='js/zonas_inundables.js') }}"
+></script>
+{% endblock %}
+{% block content %}
+{% from "form/_formhelpers.html" import render_field %}
+<div class="content-page">
+  <h1 class="border-botton-dotted">Editar Zona Inundable</h1>
+  <div class="mt-5">
+    <form action="{{ url_for('zona_update') }}" method="POST" autocomplete="off" novalidate>
+      {{ render_field(form.id) }}
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2 ">
+            {% if form.name.errors %}
+            {{ render_field(form.name, class="form-control is-invalid") }}
+            {% else %}
+            {{ render_field(form.name, class="form-control") }}
+            {% endif %}
+          </div>
+          <div class="form-group col-md-4">
+            {% if form.cant_puntos.errors %}
+            {{ render_field(form.cant_puntos, class="form-control is-invalid") }}
+            {% else %}
+            {{ render_field(form.cant_puntos, class="form-control") }}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-1">
+            <div class="input-group">
+              <div class="form-group col-md-9 pr-2">
+            {% if form.code.errors %}
+            {{ render_field(form.code, class="form-control is-invalid") }}
+            {% else %}
+            {{ render_field(form.code, class="form-control") }}
+            {% endif %}
+              </div>
+              <div class="form-group col-md-3 pt-3">
+            <button type="button" onclick="generarHash();" class="btn btn-primary mt-2">Generar Código</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="input-group">
+              <div class="form-group col-md-6 pr-2">
+              {% if form.color_capa.errors %}
+              {{ render_field(form.color_capa, class="form-control is-invalid") }}
+              {% else %}
+              {{ render_field(form.color_capa, class="form-control") }}
+              {% endif %}
+            </div>
+            <div class="form-group col-md-2 pt-4">
+              <input id="color-input" onchange="setColor(this)" onkeyup="setColor(this)" class="form-control form-control-color" type="color"></input>
+            </div>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+      <div class="form-group mb-4 mt-4">
+        <div>
+          {% if form.active.errors %}
+          {{ render_field(form.active, class="checkbox-1x is-invalid") }}
+          {% else %}
+          {{ render_field(form.active, class="checkbox-1x ") }}
+          {% endif %}
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2">
+            <a class="btn btn-secondary mt-2 mr-1" href="{{ url_for('zonas_index') }}" class="link">Cancelar</a>
+            <button type="submit" class="btn btn-primary mt-2">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

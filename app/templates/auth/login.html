@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+{% block head %}
+{{ super() }}
+<script type="text/javascript" src="{{ url_for('static', filename='js/auth.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/auth.css') }}">
+{% endblock %}
+{% block content %}
+  <div class="popupConfirmation">
+    <span class="helper"></span>
+    <div>
+      <div class="popupCloseButton">&times;</div>
+      <p>Registrarse con una red social</p>
+      <div class="popupButtons">
+        <input type="button" class="btn btn-secondary" value="Cancelar" class="cancelButton">
+        <a class="btn btn-danger ml-2" href="{{ url_for('auth_register_Google') }}" class="link"><i class="fab fa-google"></i> Registrarse con Google</a>
+      </div>
+    </div>
+  </div>
+  <div class="content-page">
+  <h1 class="border-botton-dotted">Iniciar sesión</h1>
+  <div class="mt-5">
+    <form action="{{ url_for('auth_authenticate') }}" method="POST">
+      <div class="form-group col-md-4 center-input center-input">
+        <label for="exampleInputEmail1">Email</label>
+        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+          placeholder="Ingrese su email">
+      </div>
+      <div class="form-group col-md-4 center-input">
+        <label for="exampleInputPassword1">Contraseña</label>
+        <input name="password" type="password" class="form-control" id="exampleInputPassword1"
+          placeholder="Ingrese su contraseña">
+          {% if(errors) %}
+          <div class="mt-3 text-danger center-input">{{ errors }}</div>
+        {% endif %}
+        {% if(success) %}
+          <div class="mt-3 text-success center-input">{{ success }}</div>
+        {% endif %}
+      </div>
+      <div class="form-group col-md-4 center-input">
+        <a class="btn btn-secondary mt-4 mr-1" href="{{ url_for('home') }}" class="link">Cancelar</a>
+        <button type="submit" class="btn btn-primary mt-4">Ingresar</button>
+        <a class="link-dark mt-4 ml-3 align-bottom" onclick="showPopUp();" class="link">Registrarse</a>
+      </div>
+      </form>
+      <div class="form-group col-md-4 center-input">
+        <a class="btn btn-danger mt-4 mr-1" href="{{ url_for('auth_loginGoogle') }}" class="link"><i class="fab fa-google"></i> Ingresar con Google</a>
+      </div>
+  </div>
+</div>
+{% endblock %}

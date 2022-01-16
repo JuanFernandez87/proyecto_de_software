@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+{% block title %}Zona{% endblock %}
+{% block head %}
+{{ super() }}
+<!--Leaflet files-->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+
+<!--Leafleat Draw-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" ></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+
+<script type="module" src="{{ url_for('static', filename='js/zonas_inundables _map.js') }}"></script>
+
+<script
+type="text/javascript"
+src="{{ url_for('static', filename='js/zonas_inundables.js') }}"
+></script>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='/css/zonas_inundables.css') }}"
+  />
+
+{% endblock %}
+{% block content %}
+<div class="content-page">
+  <h1 class="border-botton-dotted">Detalle Zona Inundable</h1>
+  <div class="mt-5">
+    <div class="form-row mb-2 mt-5 mb-2">
+      <div class="input-group">
+        <div class="form-group col-md-4 pr-2">
+        </div>
+        <div class="form-group col-md-4 pr-2">
+        </div>
+        <div class="form-group col-md-4 pr-2 right">
+          <a class="btn btn-secondary mt-2 mr-2" href="{{ url_for('zonas_index') }}" class="link">Volver</a>
+        </div>
+      </div>
+    </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2 ">
+             <input type="hidden" id="id" value="{{ zona.id }}"></input>
+            <label class="fw-bold">Nombre de la zona:</label>
+            <input type="text" class="form-control" readonly disabled value="{{ zona.name }}"></input>
+            <div class="form-group col-md-12">
+              <label class="fw-bold">Cantidad de puntos:</label>
+              <input type="text" class="form-control" readonly disabled value="{{ zona.cant_puntos }}"></input>
+            </div>
+            <div class="input-group">
+              <div class="form-group col-md-4 pr-1">
+                <label class="fw-bold">Estado:</label>
+                {% if(zona.active)%}
+                  <input type="text" class="form-control" readonly disabled value="Publicado"></input>
+                {%else%}
+                  <input type="text" class="form-control" readonly disabled value="Despublicado"></input>
+                {%endif%}
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-4 pr-2">
+            <label class="fw-bold">Código:</label>
+            <input type="text" class="form-control" readonly disabled value="{{ zona.code }}"></input>
+            <div class="input-group">
+            <div class="form-group col-md-6 pr-2">
+              <label class="fw-bold">Color Area:</label>
+              <input type="text" class="form-control" readonly disabled id="color_capa" value="{{ zona.color_capa }}"></input>
+            </div>
+            <div class="form-group col-md-2 pt-4">
+              <input id="color-input" disabled class="form-control form-control-color" type="color"></input>
+            </div>
+          </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label class="fw-bold">Area:</label>
+               <Mapa>
+               <div class="map-container">
+                <div id="mapid"></div>  
+              </div>
+          </div>
+        </div>
+      </div>
+      
+  </div>
+</div>
+{% endblock %}

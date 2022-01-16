@@ -1,0 +1,193 @@
+{% extends "layout.html" %} {% block title %}Usuarios{% endblock %}
+
+<head>
+  {% block head %} {{ super() }}
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='/css/zonas_inundables.css') }}"
+  />
+  <script
+    type="text/javascript"
+    src="{{ url_for('static', filename='js/zonas_inundables.js') }}"
+  ></script>
+  {% endblock %}
+</head>
+{% block content %} {% from "form/_formhelpers.html" import render_field %}
+<div class="popupConfirmation">
+  <span class="helper"></span>
+  <div>
+    <div class="popupCloseButton">&times;</div>
+    <p>¿Está seguro que desea eliminar la Zona de Inundación Seleccionada?</p>
+    <div class="popupButtons">
+      <input
+        type="button"
+        class="btn btn-secondary"
+        value="Cancelar"
+        class="cancelButton"
+      />
+      <form
+        action="{{ url_for('zone_delete') }}"
+        method="post"
+        class="popupConfirmButton"
+      >
+        <input type="hidden" id="zone_to_delete" name="zone_to_delete" />
+        <input class="btn btn-primary" type="submit" value="Aceptar" />
+      </form>
+    </div>
+  </div>
+</div>
+<div class="content-page">
+  <div>
+    <div>
+      <h1 class="border-botton-dotted">Zonas Inundables</h1>
+    </div>
+    <div class="right m-4">
+      <form
+        action="{{ url_for('zonas_upload') }}"
+        method="POST"
+        enctype="multipart/form-data"
+        novalidate
+      >
+        {% if current_user.has_permissions("zonas_new") %}
+          <input class="form-control w-25 inline" type="file" name="file" />
+       
+        <button class="btn btn-primary" type="submit">Cargar</button>
+        {% endif %}
+        <a
+          class="btn btn-secondary btn-md"
+          href="{{ url_for('home') }}"
+          type="button"
+          >Volver</a
+        >
+      </form>
+      {% if (errors) %}
+      <div class="text-danger">{{ errors }}</div>
+      {%endif%}
+    </div>
+    <div class="container">
+      {% if (zonas.items|length != 0) or (search_value_name|length != 0) or (search_value_active|length != 0) %}
+      <form action="{{ url_for('zonas_search') }}" method="post" class="pb-3">
+        <div class="row align-items-center">
+        <div class="col">
+
+        <input
+          class="search-bar form-control d-inline"
+          type="search"
+          placeholder="Ingrese una zona inundable"
+          value="{{search_value_name}}"
+          name="name_query"
+        />
+      </div>
+        <div class="col-md-2">
+          <select class="form-control search-bar" name="active_query">
+            {% if search_value_active == "" or search_value_active == "1"  %}
+            <option value="1" selected>Publicado</option>
+            <option value="0">Despublicado</option>
+            {%else%}
+            <option value="1" >Publicado</option>
+            <option value="0" selected>Despublicado</option>
+            {%endif%}
+          </select>
+        </div>
+        <div class="col">
+        <button class="btn btn-primary primary searchBtn">
+          <i class="fas fa-search"></i>
+        </button>
+        </div>
+        </div>
+      </form>
+      {%endif%}
+    </div>
+  </div>
+  <div class="table-responsive-md">
+    {% if (zonas.items|length != 0) %}
+    <table class="table table-striped table-bordered" width="100%">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Código</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Cantidad de Puntos</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for zona in zonas.items %}
+        <tr>
+          <td scope="row">{{ zona.name}}</td>
+          <td>{{ zona.code }}</td>
+          <td>
+            {% if zona.active %} Publicado {% else %} Despublicado {% endif %}
+          </td>
+          <td>{{ zona.cant_puntos }}</td>
+          <td>
+            <div class="row justify-content-center">
+              <div class="col-md-2">
+                {% if current_user.has_permissions("zonas_show") %}
+                <form action="{{ url_for('zonas_detail', id=zona.id) }}">
+                  <button id="submitButton"  data-toggle="tooltip" title="Detalle">
+                    <i class="fas fa-info-circle fa-lg"></i>
+                  </button>
+                </form>
+                {% endif %}
+              </div>
+            <div class="col-md-2">
+              {% if current_user.has_permissions("zonas_update") %}
+              <form action="{{ url_for('zona_update_index', id=zona.id) }}">
+                <button id="submitButton" data-toggle="tooltip" title="Editar">
+                  <i class="fas fa-pencil-alt fa-lg"></i>
+                </button>
+              </form>
+              {% endif %}
+            </div>
+              <div class="col-sm-2">
+                {% if current_user.has_permissions("zonas_destroy") %}
+                <button id="submitButton" onclick="deleteZona('{{zona.id}}');" data-toggle="tooltip" title="Eliminar">
+                  <i class="fas fa-trash fa-lg"></i>
+                </button>
+                {% endif %}
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <nav aria-label="Navegacion zonas inundables">
+      <ul class="pagination justify-content-end">
+        {% if zonas.has_prev %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="{{ url_for('zonas_index', page=zonas.prev_num) }}"
+            >Anterior</a
+          >
+        </li>
+        {% endif %} {% for page in range (1,zonas.pages + 1)%}
+        <li class="page-item">
+          <a class="page-link" href="{{ url_for('zonas_index', page=page) }}"
+            >{{page}}</a
+          >
+        </li>
+        {% endfor %} {% if zonas.has_next %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="{{ url_for('zonas_index', page=zonas.next_num) }}"
+            >Siguiente</a
+          >
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    {%else%}
+    <div class="centered">
+      <div>
+        No se encuentran zonas de inundación disponibles, por favor cargue un
+        archivo csv.
+      </div>
+    </div>
+    {%endif%}
+  </div>
+</div>
+{% endblock %}

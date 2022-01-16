@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}Proyecto-Grupo19{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="content-page">
+  <div class="form-row pb-2">
+    <div class="input-group pt-5 pl-5">
+      <div class="form-group col-md-6">
+        <h5>Bienvenidos al</h5>
+        <h1 class="border-botton-dotted-home"> SISTEMA DE INFORMACIÓN DE GESTION DE INUNDACIONES</h1>
+        <p>En esta página usted podrá consultar toda la información necesaria en caso de una inundación.</p>
+      </div>
+      <div class="form-group col-md-2">
+        <div class="pl-5"><img src="{{ url_for('static', filename='images/img-bk-disclaimer.26e8b131.png') }}"
+            alt="logo municipalidad"></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

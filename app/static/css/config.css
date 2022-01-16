@@ -1,0 +1,119 @@
+.conf{
+    margin-left: 200px;
+}
+
+.conf_titulo{
+    /* border-bottom: 2px solid #008290; */
+    margin-left: 150px;
+    width:74%;
+}
+
+.botones{
+    margin-left: 980px;
+    display: inline-flex;
+}
+
+.tabla{
+    width:90%;
+    border-top: 2px solid var(--primary-color);
+    font-size: 14px;
+    justify-content: center;
+}
+
+.titulo{
+    font-size: 10px;
+    margin-top: 30px;
+    justify-content: space-between;
+    display: inline-flex;
+}
+
+.tituloTabla{
+    margin-top: 40px;
+}
+
+.subtitulo{
+    margin-top: 20px;
+    justify-content: flex-start;
+    text-align: left;
+    margin-left: 40px;
+}
+
+.popupConfirmation{
+    background:rgba(0,0,0,.4);
+    cursor:pointer;
+    display:none;
+    height:100%;
+    position:fixed;
+    text-align:center;
+    top:0;
+    width:100%;
+    z-index:10000;
+}
+.popupConfirmation .helper{
+    display:inline-block;
+    height:50%;
+    vertical-align:middle;
+}
+.popupConfirmation > div {
+    background-color: #fff;
+    box-shadow: 10px 10px 60px #555;
+    display: inline-block;
+    height: auto;
+    max-width: 551px;
+    min-height: 100px;
+    vertical-align: middle;
+    width: 60%;
+    position: relative;
+    border-radius: 8px;
+    padding: 15px 5%;
+}
+.popupCloseButton {
+    background-color: #fff;
+    border: 3px solid #999;
+    border-radius: 50px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial;
+    font-weight: bold;
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 25px;
+    line-height: 30px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+.popupCloseButton:hover {
+    background-color: #ccc;
+}
+.triggerPopup {
+    cursor: pointer;
+    /* font-size: 20px; */
+    margin: 20px;
+    display: inline-block;
+    /* font-weight: bold; */
+}
+
+.popupButtons {
+    display: inline-flex;
+    padding: 1rem;
+}
+
+.popupConfirmButton {
+    padding-left: 1rem;
+}
+
+input{
+    font-size: 20px;
+    margin-top: 7px;
+    margin-right: 46px;
+    border-radius: 50px;
+} 
+
+input{
+    display: block;
+    padding: 10px 30px;
+    background-color: #6D9886;
+    padding-right: 34px;
+} 

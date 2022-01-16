@@ -1,0 +1,78 @@
+{% extends "layout.html" %} {% block title %}Usuarios{% endblock %} {% block
+head %} {{ super() }} {% endblock %} {% block content %} {% from
+"form/_formhelpers.html" import render_field %}
+<div class="content-page">
+  <h1 class="border-botton-dotted">Nuevo Usuario</h1>
+  <div class="mt-5">
+    <form
+      action="{{ url_for('user_create') }}"
+      method="POST"
+      autocomplete="off"
+      novalidate
+    >
+      <div class="form-group col-md-8 mb-2">
+        {% if form.user_name.errors %} {{ render_field(form.user_name,
+        class="form-control is-invalid") }} {% else %} {{
+        render_field(form.user_name, class="form-control") }} {% endif %}
+      </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2">
+            {% if form.first_name.errors %} {{ render_field(form.first_name,
+            class="form-control is-invalid") }} {% else %} {{
+            render_field(form.first_name, class="form-control") }} {% endif %}
+          </div>
+          <div class="form-group col-md-4">
+            {% if form.last_name.errors %} {{ render_field(form.last_name,
+            class="form-control is-invalid") }} {% else %} {{
+            render_field(form.last_name, class="form-control") }} {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2">
+            {% if form.email.errors %} {{ render_field(form.email,
+            class="form-control is-invalid") }} {% else %} {{
+            render_field(form.email, class="form-control") }} {% endif %}
+          </div>
+          <div class="form-group col-md-4">
+            {% if form.password.errors %} {{ render_field(form.password,
+            class="form-control is-invalid") }} {% else %} {{
+            render_field(form.password, class="form-control") }} {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2">
+            {% if form.rol_id.errors %} {{ render_field(form.rol_id,
+            class="form-control is-invalid") }} {% else %} {{
+            render_field(form.rol_id, class="form-control") }} {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="form-group mb-4 mt-4">
+        <div>
+          {% if form.active.errors %} {{ render_field(form.active,
+          class="checkbox-1x is-invalid") }} {% else %} {{
+          render_field(form.active, class="checkbox-1x") }} {% endif %}
+        </div>
+      </div>
+      <div class="form-row mb-2">
+        <div class="input-group">
+          <div class="form-group col-md-4 pr-2">
+            <a
+              class="btn btn-secondary mt-2 mr-1"
+              href="{{ url_for('user_index') }}"
+              class="link"
+              >Cancelar</a
+            >
+            <button type="submit" class="btn btn-primary mt-2">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
