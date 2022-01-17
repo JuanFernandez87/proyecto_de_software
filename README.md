@@ -2,7 +2,7 @@
 ----
 Para este proyecto se trabajó en una aplicación que permitia conocer y gestionar zonas con peligro de inundación y las acciones a llevar a cabo en caso de suceder un evento de este estilo.
 Se desarrollaron dos aplicaciones, una privada donde los administradores del sistema y usuarios con permisos podian gestionar la informacíon de la aplicación. Ésta se realizo utizilando el lenguaje Python, el framework Flask, Jinja2 como motor de plantillas web y para gestionar la base de datos MariaDB.
-En la aplicación pública las tareas que se podian realizar eran:
+En la aplicación privada las tareas que se pueden realizar son:
 - Administrar Usuarios
 - Gestionar puntos de encuentro
 - Gestionar recorridos de evacuación
@@ -11,7 +11,7 @@ En la aplicación pública las tareas que se podian realizar eran:
 
 Y por otro lado una aplicación pública donde los y las habitantes podian ver información y realizar denuncias. En este caso para el Frontend usamos el Framework Vue3.
 
-Por otro lado en la aplicación publica el sistema permitia:
+En el lado de la aplicación publica el sistema permitia:
 - Ver información de puntos de encuentro
 - Ver información de recorridos de evacuación
 - Ver información de zonas inundables
